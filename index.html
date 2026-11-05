@@ -67,7 +67,7 @@ button:disabled{cursor:not-allowed;opacity:.65;transform:none}
 .kv{margin:10px 0 6px;color:var(--verde-escuro);font-size:31px;line-height:1.05;font-weight:900}
 .kpi.alert .kv{color:var(--alerta-escuro)}
 .ks{min-height:21px;color:var(--texto-suave);font-size:12px;line-height:1.35}
-.status{display:inline-block;margin-top:5px;padding:4px 8px;border-radius:5px;font-size:9px;font-weight:900;letter-spacing:.06em}.status.danger{border:1px solid #F0C5C5;background:var(--alerta-suave);color:var(--alerta-escuro)}.status.success{border:1px solid #BFE3D3;background:#EAF8F2;color:var(--sucesso)}.status.warning{border:1px solid #F3D5A4;background:#FFF7E8;color:var(--atencao)}.status.neutral{border:1px solid #D8E5E3;background:#F4F6F5;color:var(--texto-suave)}.kpi.danger{border-top-color:var(--alerta)}.kpi.danger .kv{color:var(--alerta-escuro)}.kpi.success{border-top-color:var(--sucesso)}.kpi.warning{border-top-color:var(--atencao)}.kpi.warning .kv{color:#A75A05}.empty-row td{text-align:center!important;color:var(--texto-suave);padding:28px!important}.critical{display:inline-block;margin-top:5px;padding:4px 8px;border:1px solid #F0C5C5;border-radius:5px;background:var(--alerta-suave);color:var(--alerta-escuro);font-size:9px;font-weight:900;letter-spacing:.06em}
+.status{display:inline-block;margin-top:5px;padding:4px 8px;border-radius:5px;font-size:9px;font-weight:900;letter-spacing:.06em}.status.danger{border:1px solid #F0C5C5;background:var(--alerta-suave);color:var(--alerta-escuro)}.status.success{border:1px solid #BFE3D3;background:#EAF8F2;color:var(--sucesso)}.status.warning{border:1px solid #F0C5C5;background:var(--alerta-suave);color:var(--alerta-escuro)}.status.neutral{border:1px solid #D8E5E3;background:#F4F6F5;color:var(--texto-suave)}.kpi.danger{border-top-color:var(--alerta)}.kpi.danger .kv{color:var(--alerta-escuro)}.kpi.success{border-top-color:var(--sucesso)}.kpi.warning{border-top-color:var(--alerta)}.kpi.warning .kv{color:var(--alerta-escuro)}.empty-row td{text-align:center!important;color:var(--texto-suave);padding:28px!important}.critical{display:inline-block;margin-top:5px;padding:4px 8px;border:1px solid #F0C5C5;border-radius:5px;background:var(--alerta-suave);color:var(--alerta-escuro);font-size:9px;font-weight:900;letter-spacing:.06em}
 .card{width:100%;border:1px solid var(--linha);border-radius:14px;background:#fff;overflow:hidden}
 .cardhead{padding:15px 18px 12px;border-bottom:1px solid var(--linha);background:#fff}
 .cardhead h3{font-size:21px;font-weight:700}
@@ -87,6 +87,13 @@ tr:hover td{background:#EEF7F5}
 .voltage.mt{background:#DCF2EF;color:var(--verde-escuro)}
 .voltage.bt{background:#EDF1F0;color:var(--texto)}
 .voltage.other{background:#E8EAE9;color:#5C6361}
+.time-cell{font-size:11px;line-height:1.3;white-space:nowrap;font-variant-numeric:tabular-nums}
+.time-line{display:flex;justify-content:space-between;gap:5px}
+.time-label{font-weight:900;color:var(--verde-escuro)}
+.time-diff{font-weight:900}
+.time-diff.late{color:#C62828;background:#FDECEC;border-radius:5px;padding:1px 4px}
+.time-diff.early{color:#16834A;background:#EAF7EF;border-radius:5px;padding:1px 4px}
+.time-diff.ontime{color:#52615E;background:#EEF1F0;border-radius:5px;padding:1px 4px}
 .foot{display:flex;justify-content:space-between;gap:16px;margin-top:12px;padding-top:9px;border-top:1px solid var(--linha);color:var(--texto-suave);font-size:11px}
 .exporting button{pointer-events:none;opacity:.65}
 .ppt-stage{position:fixed;left:-100000px;top:0;width:1888px;height:900px;padding:0;background:#fff;overflow:hidden;font-family:Arial,"Segoe UI",sans-serif}
@@ -114,21 +121,99 @@ tr:hover td{background:#EEF7F5}
 .ppt-stage #capture tbody{height:auto!important}
 .ppt-stage #capture tbody tr{height:48px!important}
 .ppt-stage #capture th{height:34px!important;padding:5px 9px!important;font-size:14px!important;line-height:1!important;vertical-align:middle!important}
-.ppt-stage #capture th:nth-child(1){width:7%!important}
-.ppt-stage #capture th:nth-child(2){width:21%!important}
-.ppt-stage #capture th:nth-child(3){width:10%!important}
-.ppt-stage #capture th:nth-child(4){width:29%!important}
-.ppt-stage #capture th:nth-child(5),.ppt-stage #capture th:nth-child(6),.ppt-stage #capture th:nth-child(7){width:11%!important}
+/* Distribuição completa das 13 colunas da imagem do comitê */
+.ppt-stage #capture th:nth-child(1){width:3%!important}
+.ppt-stage #capture th:nth-child(2){width:13%!important}
+.ppt-stage #capture th:nth-child(3){width:4%!important}
+.ppt-stage #capture th:nth-child(4){width:10%!important}
+.ppt-stage #capture th:nth-child(5){width:9%!important}
+.ppt-stage #capture th:nth-child(6){width:9%!important}
+.ppt-stage #capture th:nth-child(7){width:8%!important}
+.ppt-stage #capture th:nth-child(8){width:9%!important}
+.ppt-stage #capture th:nth-child(9){width:9%!important}
+.ppt-stage #capture th:nth-child(10){width:8%!important}
+.ppt-stage #capture th:nth-child(11){width:5%!important}
+.ppt-stage #capture th:nth-child(12){width:6%!important}
+.ppt-stage #capture th:nth-child(13){width:7%!important}
+.ppt-stage #capture th:nth-child(n+11),.ppt-stage #capture td:nth-child(n+11){padding-left:9px!important;padding-right:9px!important;}
 .ppt-stage #capture .tablewrap{background:linear-gradient(#fff,#fff)!important}
-.ppt-stage #capture td{padding:3px 9px!important;font-size:15px!important;line-height:1.02!important;vertical-align:middle!important;overflow:hidden!important;white-space:nowrap!important;text-overflow:ellipsis!important}
-.ppt-stage #capture td .muted{margin-top:1px!important;font-size:12px!important;line-height:1!important}
+.ppt-stage #capture td{padding:2px 5px!important;font-size:11px!important;line-height:1.02!important;vertical-align:middle!important;overflow:hidden!important;white-space:nowrap!important;text-overflow:ellipsis!important}
+.ppt-stage #capture td .muted{margin-top:1px!important;font-size:11px!important;line-height:1!important}
+.ppt-stage #capture .time-cell{font-size:9px!important;line-height:1.18!important}
+.ppt-stage #capture .time-diff{padding:1px 3px!important}
 .ppt-stage #capture .rank{width:29px!important;height:29px!important;font-size:13px!important}
 .ppt-stage #capture .voltage{min-width:34px!important;padding:3px 7px!important;font-size:11px!important}
 .ppt-stage #capture .foot{flex:0 0 22px!important;height:22px!important;margin:3px 0 0!important;padding:4px 0 0!important;font-size:11px!important;line-height:1!important;overflow:hidden!important}
-.committee-switch{display:none;margin-top:18px;padding:18px 24px}.committee-switch .switch-title{font-size:13px;font-weight:900;color:var(--verde-escuro);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}.committee-switch .buttons{margin:0}.committee-switch button.active{background:var(--verde);color:#fff}.committee-note{margin-top:10px;color:var(--texto-suave);font-size:12px}.monthly-filter{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 14px;padding-bottom:14px;border-bottom:1px solid var(--linha)}.monthly-filter label{font-weight:900;color:var(--verde-escuro);text-transform:uppercase;font-size:12px}.monthly-filter select{min-width:255px}.manager-buttons button{border-radius:10px;padding:10px 14px}.manager-buttons button.active{background:var(--verde);color:#fff}
+.committee-switch{display:none;margin-top:18px;padding:18px 24px}.committee-switch .switch-title{font-size:13px;font-weight:900;color:var(--verde-escuro);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}.committee-switch .buttons{margin:0}.committee-switch button.active{background:var(--verde);color:#fff}.committee-note{margin-top:10px;color:var(--texto-suave);font-size:12px}
 @media(max-width:1100px){.kpis{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:650px){.wrap{padding:0 8px 20px}.head{margin:0 -8px;padding:16px;align-items:flex-start}.brand,.head,.title{flex-direction:column}.brand{align-items:flex-start}.logo-light{width:82px;height:70px}.input,.dash{padding:18px}.kpis{grid-template-columns:1fr}.foot{flex-direction:column}.title h2{font-size:24px}}
 @media print{.input,.buttons{display:none!important}.dash{display:block!important}.panel{box-shadow:none}}
+
+/* Espaçamento das colunas numéricas finais no painel e na exportação */
+.tablewrap table th:nth-child(11),.tablewrap table td:nth-child(11){min-width:88px}
+.tablewrap table th:nth-child(12),.tablewrap table td:nth-child(12){min-width:96px}
+.tablewrap table th:nth-child(13),.tablewrap table td:nth-child(13){min-width:112px}
+.tablewrap table th:nth-child(n+11),.tablewrap table td:nth-child(n+11){padding-left:10px;padding-right:10px;}
+
+/* Bordas padronizadas em toda a tabela */
+.tablewrap table{border-collapse:collapse;border:1px solid #AFC4C0}
+.tablewrap table th,.tablewrap table td{border:1px solid #C9D9D6}
+.tablewrap table thead th{border-color:#57736D}
+.tablewrap table tbody tr:last-child td{border-bottom:1px solid #AFC4C0}
+.ppt-stage #capture table{border-collapse:collapse!important;border:1px solid #9FB7B2!important}
+.ppt-stage #capture th,.ppt-stage #capture td{border:1px solid #C2D3D0!important}
+.ppt-stage #capture thead th{border-color:#57736D!important}
+
+/* Padronização final das larguras, tipografia e alinhamento da tabela */
+.tablewrap table{width:100%;table-layout:fixed;font-size:12px}
+.tablewrap table th{font-family:Arial,"Segoe UI",sans-serif;font-size:12px;font-weight:800;line-height:1.15;padding:8px 7px;white-space:normal;overflow-wrap:normal;word-break:normal;vertical-align:middle}
+.tablewrap table td{font-family:Arial,"Segoe UI",sans-serif;font-size:12px;line-height:1.2;padding:7px 7px;vertical-align:middle;overflow:hidden;text-overflow:ellipsis}
+.tablewrap table td b,.tablewrap table td .muted,.tablewrap table td.num,.tablewrap table .time-cell{font-size:12px;line-height:1.2}
+.tablewrap table td .muted{margin-top:2px}
+.tablewrap table .time-cell{white-space:nowrap;font-variant-numeric:tabular-nums}
+.tablewrap table .time-diff{font-size:12px;line-height:1;font-weight:800;padding:2px 4px}
+.tablewrap table .voltage{font-size:11px;line-height:1.1}
+.tablewrap table .rank{font-size:12px}
+.tablewrap table th:nth-child(1){width:3%}
+.tablewrap table th:nth-child(2){width:13%}
+.tablewrap table th:nth-child(3){width:4%}
+.tablewrap table th:nth-child(4){width:10%}
+.tablewrap table th:nth-child(5){width:9%}
+.tablewrap table th:nth-child(6){width:9%}
+.tablewrap table th:nth-child(7){width:9%}
+.tablewrap table th:nth-child(8){width:9%}
+.tablewrap table th:nth-child(9){width:9%}
+.tablewrap table th:nth-child(10){width:9%}
+.tablewrap table th:nth-child(11){width:5%}
+.tablewrap table th:nth-child(12){width:5%}
+.tablewrap table th:nth-child(13){width:6%}
+.tablewrap table th:nth-child(n+11),.tablewrap table td:nth-child(n+11){text-align:right;white-space:nowrap}
+
+/* Mesma padronização aplicada à imagem PNG do comitê */
+.ppt-stage #capture table{width:100%!important;table-layout:fixed!important;font-size:11px!important}
+.ppt-stage #capture th{font-size:11px!important;font-weight:800!important;line-height:1.1!important;padding:6px 5px!important;white-space:normal!important;vertical-align:middle!important}
+.ppt-stage #capture td,.ppt-stage #capture td b,.ppt-stage #capture td .muted,.ppt-stage #capture td.num,.ppt-stage #capture .time-cell{font-size:11px!important;line-height:1.15!important}
+.ppt-stage #capture td{padding:5px 5px!important;vertical-align:middle!important}
+.ppt-stage #capture .time-diff{font-size:11px!important;line-height:1!important;padding:2px 3px!important}
+.ppt-stage #capture th:nth-child(1){width:3%!important}
+.ppt-stage #capture th:nth-child(2){width:13%!important}
+.ppt-stage #capture th:nth-child(3){width:4%!important}
+.ppt-stage #capture th:nth-child(4){width:10%!important}
+.ppt-stage #capture th:nth-child(5){width:9%!important}
+.ppt-stage #capture th:nth-child(6){width:9%!important}
+.ppt-stage #capture th:nth-child(7){width:9%!important}
+.ppt-stage #capture th:nth-child(8){width:9%!important}
+.ppt-stage #capture th:nth-child(9){width:9%!important}
+.ppt-stage #capture th:nth-child(10){width:9%!important}
+.ppt-stage #capture th:nth-child(11){width:5%!important}
+.ppt-stage #capture th:nth-child(12){width:5%!important}
+.ppt-stage #capture th:nth-child(13){width:6%!important}
+
+.period-controls{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-top:12px;padding-top:12px;border-top:1px solid var(--linha);flex-wrap:wrap}
+.period-toggle{display:flex;gap:8px;flex-wrap:wrap}
+.period-select-label{display:grid;gap:5px;font-size:12px;font-weight:800;color:var(--verde-escuro);min-width:280px}
+.period-select-label select{width:100%;min-height:40px;border:1px solid var(--linha);border-radius:9px;background:#fff;color:var(--texto);padding:8px 10px;font:700 13px Arial,"Segoe UI",sans-serif}
+@media(max-width:700px){.period-controls{align-items:stretch}.period-select-label{min-width:100%}}
 </style>
 </head>
 <body>
@@ -157,14 +242,21 @@ tr:hover td{background:#EEF7F5}
   <div id="msg" class="msg" role="status" aria-live="polite"></div>
 </section>
 <section id="committeeSwitch" class="panel committee-switch">
-  <div class="monthly-filter"><label for="monthSelect">Visão mensal</label><select id="monthSelect" onchange="setMonth(this.value)" aria-label="Selecionar mês"></select></div>
-  <div class="switch-title">Selecione a gerência</div>
-  <div class="buttons manager-buttons">
-    <button id="btnEXP" class="primary active" onclick="setArea('EXP')">Gerência de Expansão | EXP-</button>
-    <button id="btnMAN_BX_OE" onclick="setArea('MAN_BX_OE')">Manutenção BX/OE | MAN-BX e MAN-OE</button>
-    <button id="btnMAN_LE_VP" onclick="setArea('MAN_LE_VP')">Manutenção LE/VP | MAN-LE e MAN-VP</button>
-    <button id="btnMAN_CS_SO" onclick="setArea('MAN_CS_SO')">Manutenção CS/SO | MAN-BA e MAN-CS</button>
-  </div><div id="committeeNote" class="committee-note"></div>
+  <div class="switch-title">Selecione a visão do comitê</div>
+  <div class="buttons">
+    <button id="btnEXP" class="primary active" onclick="setArea('EXP')">Expansão | EXP-</button>
+    <button id="btnMAN" onclick="setArea('MAN')">Manutenção | MAN-</button>
+  </div>
+  <div class="period-controls" aria-label="Seleção do período">
+    <div class="period-toggle">
+      <button id="btnMonthly" class="primary active" onclick="setViewMode('monthly')">Visão mensal</button>
+      <button id="btnWeekly" onclick="setViewMode('weekly')">Visão semanal</button>
+    </div>
+    <label class="period-select-label">Período analisado
+      <select id="periodSelect" onchange="setPeriod(this.value)" aria-label="Período analisado"></select>
+    </label>
+  </div>
+  <div id="committeeNote" class="committee-note"></div>
 </section>
 <section id="dashCHI" class="panel dash">
  <div id="captureCHI" class="capture-panel">
@@ -174,9 +266,9 @@ tr:hover td{background:#EEF7F5}
    <div class="kpi"><div class="kl">CHI planejado</div><div id="chiPlan" class="kv">0</div><div class="ks">Base total planejada</div></div>
    <div id="chiExecCard" class="kpi"><div class="kl">CHI executado</div><div id="chiExec" class="kv">0</div><div id="chiExecSub" class="ks"></div><span id="chiStatus" class="status neutral">AGUARDANDO</span></div>
    <div id="chiDeltaCard" class="kpi"><div class="kl">Desvio de CHI</div><div id="chiDelta" class="kv">0</div><div id="chiDeltaSub" class="ks"></div></div>
-   <div class="kpi"><div class="kl">Maior CHI executado</div><div id="chiMax" class="kv">0</div><div id="chiMaxSub" class="ks"></div><span class="critical">TOP 1</span></div>
+   <div id="chiMaxCard" class="kpi"><div class="kl">Maior variação percentual de CHI</div><div id="chiMax" class="kv">0</div><div id="chiMaxSub" class="ks"></div><span class="critical">TOP 1</span></div>
   </div>
-  <article class="card"><div class="cardhead"><h3 id="rankTitleCHI">Top 10 | Variação positiva de CHI</h3><div class="muted">Somente PIs com CHI executado acima do planejado</div></div><div class="tablewrap"><table><thead><tr><th>#</th><th>PI / Responsável</th><th>Tensão</th><th>Conjunto crítico</th><th class="num">Plan.</th><th class="num">Exec.</th><th class="num">Variação</th></tr></thead><tbody id="chiBody"></tbody></table></div></article>
+  <article class="card"><div class="cardhead"><h3 id="rankTitleCHI">Top 10 | Variação positiva de CHI</h3><div class="muted">Somente PIs com CHI acima do planejado e término após o horário previsto</div></div><div class="tablewrap"><table><thead><tr><th>#</th><th>PI / Responsável</th><th>Tensão</th><th>Conjunto crítico</th><th>Prev. Início Interrup.</th><th>Início da Interrupção</th><th>Atraso Início (HH:MM)</th><th>Prev. Fim Interrup.</th><th>Término da Interrupção</th><th>Atraso Fim (HH:MM)</th><th class="num">Plan.</th><th class="num">Exec.</th><th class="num">Variação</th></tr></thead><tbody id="chiBody"></tbody></table></div></article>
   <div class="foot"><span>Light • Fonte: planilha de programação</span><span id="stampCHI"></span></div>
  </div>
  <div class="buttons" style="justify-content:flex-end"><button class="primary" onclick="pngCHI()">Baixar visão CHI | PNG HD</button></div>
@@ -188,10 +280,10 @@ tr:hover td{background:#EEF7F5}
   <div class="kpis">
    <div class="kpi"><div class="kl">Compensação planejada</div><div id="finPlan" class="kv">R$ 0,00</div><div class="ks">Base total planejada</div></div>
    <div id="finExecCard" class="kpi"><div class="kl">Compensação executada</div><div id="finExec" class="kv">R$ 0,00</div><div id="finExecSub" class="ks"></div><span id="finStatus" class="status neutral">AGUARDANDO</span></div>
-   <div class="kpi"><div class="kl">Custo não planejado</div><div id="finUnplanned" class="kv">R$ 0,00</div><div id="finUnplannedSub" class="ks"></div></div>
-   <div class="kpi"><div class="kl">Maior compensação</div><div id="finMax" class="kv">R$ 0,00</div><div id="finMaxSub" class="ks"></div><span class="critical">TOP 1</span></div>
+   <div id="finUnplannedCard" class="kpi"><div class="kl">Custo não planejado</div><div id="finUnplanned" class="kv">R$ 0,00</div><div id="finUnplannedSub" class="ks"></div></div>
+   <div id="finMaxCard" class="kpi"><div class="kl">Maior compensação</div><div id="finMax" class="kv">R$ 0,00</div><div id="finMaxSub" class="ks"></div><span class="critical">TOP 1</span></div>
   </div>
-  <article class="card"><div class="cardhead"><h3 id="rankTitleFIN">Top 10 | Compensação financeira</h3><div class="muted">Ranking pela maior compensação executada</div></div><div class="tablewrap"><table><thead><tr><th>#</th><th>PI / Responsável</th><th>Tensão</th><th>Conjunto crítico</th><th class="num">Plan.</th><th class="num">Exec.</th><th class="num">Variação</th></tr></thead><tbody id="finBody"></tbody></table></div></article>
+  <article class="card"><div class="cardhead"><h3 id="rankTitleFIN">Top 10 | Compensação financeira</h3><div class="muted">Somente PIs com custo acima do planejado e término após o horário previsto</div></div><div class="tablewrap"><table><thead><tr><th>#</th><th>PI / Responsável</th><th>Tensão</th><th>Conjunto crítico</th><th>Prev. Início Interrup.</th><th>Início da Interrupção</th><th>Atraso Início (HH:MM)</th><th>Prev. Fim Interrup.</th><th>Término da Interrupção</th><th>Atraso Fim (HH:MM)</th><th class="num">Plan.</th><th class="num">Exec.</th><th class="num">Variação</th></tr></thead><tbody id="finBody"></tbody></table></div></article>
   <div class="foot"><span>Light • Fonte: planilha de programação</span><span id="stampFIN"></span></div>
  </div>
  <div class="buttons" style="justify-content:flex-end"><button class="primary" onclick="pngFIN()">Baixar visão financeira | PNG HD</button></div>
@@ -201,8 +293,8 @@ tr:hover td{background:#EEF7F5}
 'use strict';
 let rows=[];
 let activeArea='EXP';
-let activeMonth='all';
-let availableMonths=[];
+let viewMode='monthly';
+let selectedPeriod='';
 const $=id=>document.getElementById(id);
 const norm=x=>String(x??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim().replace(/\s+/g,' ');
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -224,60 +316,142 @@ const nfmt=x=>new Intl.NumberFormat('pt-BR',{maximumFractionDigits:3}).format(x)
 const pct=(e,p)=>p?(e-p)/p*100:(e?null:0);
 const pf=x=>x===null?'Não planejado':`${x>0?'+':''}${x.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}%`;
 const moneyDelta=x=>x>0?`+ ${money(x)}`:x<0?`- ${money(Math.abs(x))}`:money(0);
-function detectDelimiter(text){const first=(text.split(/\r?\n/)[0]||'');const candidates=['\t',';',','];return candidates.map(d=>({d,n:parseDelimited(first,d)[0]?.length||0})).sort((a,b)=>b.n-a.n)[0].d;}
+function detectDelimiter(text){text=String(text??'').replace(/^\uFEFF/,'').replace(/^(?:[ \t]*\r?\n)+/,'');const first=(text.split(/\r?\n/)[0]||'');const candidates=['\t',';',','];return candidates.map(d=>({d,n:parseDelimited(first,d)[0]?.length||0})).sort((a,b)=>b.n-a.n)[0].d;}
 function parseDelimited(text,delimiter){const data=[];let row=[],field='',quoted=false;for(let i=0;i<text.length;i++){const ch=text[i],next=text[i+1];if(ch==='"'){if(quoted&&next==='"'){field+='"';i++;}else quoted=!quoted;}else if(ch===delimiter&&!quoted){row.push(field);field='';}else if((ch==='\n'||ch==='\r')&&!quoted){if(ch==='\r'&&next==='\n')i++;row.push(field);if(row.some(v=>v.trim()!==''))data.push(row);row=[];field='';}else field+=ch;}row.push(field);if(row.some(v=>v.trim()!==''))data.push(row);return data;}
-function parseDate(value){const s=String(value??'').trim();if(!s)return null;let m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)?)?$/i);if(m){let a=+m[1],b=+m[2],y=+m[3],h=+(m[4]||0),mi=+(m[5]||0),sec=+(m[6]||0),ap=(m[7]||'').toUpperCase(),day,month;const mode=$('dateFormat').value;if(ap||mode==='mdy'){month=a-1;day=b;}else if(mode==='dmy'){day=a;month=b-1;}else if(a>12){day=a;month=b-1;}else if(b>12){month=a-1;day=b;}else{day=a;month=b-1;}if(ap==='PM'&&h<12)h+=12;if(ap==='AM'&&h===12)h=0;const d=new Date(y,month,day,h,mi,sec);return d.getFullYear()===y&&d.getMonth()===month&&d.getDate()===day?d:null;}m=s.match(/^(\d{4})-(\d{2})-(\d{2})/);if(!m)return null;const d=new Date(+m[1],+m[2]-1,+m[3]);return Number.isNaN(d.getTime())?null:d;}
+function parseDate(value){const s=String(value??'').trim();if(!s)return null;let m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)?)?$/i);if(m){let a=+m[1],b=+m[2],y=+m[3],h=+(m[4]||0),mi=+(m[5]||0),sec=+(m[6]||0),ap=(m[7]||'').toUpperCase(),day,month;const mode=$('dateFormat').value;if(ap||mode==='mdy'){month=a-1;day=b;}else if(mode==='dmy'){day=a;month=b-1;}else if(a>12){day=a;month=b-1;}else if(b>12){month=a-1;day=b;}else{day=a;month=b-1;}if(ap==='PM'&&h<12)h+=12;if(ap==='AM'&&h===12)h=0;const d=new Date(y,month,day,h,mi,sec);return d.getFullYear()===y&&d.getMonth()===month&&d.getDate()===day?d:null;}m=s.match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?/);if(!m)return null;const d=new Date(+m[1],+m[2]-1,+m[3],+(m[4]||0),+(m[5]||0),+(m[6]||0));return Number.isNaN(d.getTime())?null:d;}
 function period(values){const dates=values.map(parseDate).filter(Boolean).sort((a,b)=>a-b);if(!dates.length)return'Período não identificado';const f=d=>d.toLocaleDateString('pt-BR'),a=dates[0],b=dates.at(-1);return a.toDateString()===b.toDateString()?`Período: ${f(a)}`:`Período: ${f(a)} a ${f(b)}`;}
 function ix(headers,...names){return headers.findIndex(v=>names.some(n=>v===norm(n)||v.includes(norm(n))));}
 function message(text,error=false){$('msg').textContent=text;$('msg').className='msg'+(error?' error':'');$('msg').setAttribute('role',error?'alert':'status');}
 function setStatus(cardId,statusId,kind,text){const card=$(cardId),status=$(statusId);card.classList.remove('danger','success','warning');card.classList.add(kind);status.className=`status ${kind}`;status.textContent=text;}
+function setKpiTone(cardId,kind){const card=$(cardId);if(!card)return;card.classList.remove('danger','success','warning');if(kind)card.classList.add(kind);}
 async function generate(){const btn=$('generateBtn');btn.disabled=true;btn.textContent='Processando dados...';message('Processando...');await new Promise(r=>setTimeout(r,20));try{
- const text=$('input').value.trim();if(!text)return message('Cole os dados ou selecione um arquivo CSV/TXT.',true);
+ const text=$('input').value.replace(/^\uFEFF/,'').trim();if(!text)return message('Cole os dados ou selecione um arquivo CSV/TXT.',true);
  const delimiter=detectDelimiter(text),matrix=parseDelimited(text,delimiter);if(matrix.length<2)return message('Cole o cabeçalho e pelo menos um registro.',true);
  const headers=matrix[0].map(norm);
- const I={r:ix(headers,'responsavel','responsável','nome responsavel'),pi:ix(headers,'pi','numero do pi','número do pi','nº pi','num pi','codigo pi','código pi'),v:ix(headers,'niveis de tensao','nivel de tensao','tensão'),c:ix(headers,'conjunto critico','conjunto crítico','conjunto crit','conjunto'),cp:ix(headers,'chi planejado','chi plan'),ce:ix(headers,'chi executado','chi exec'),fp:ix(headers,'comp. financ. planej','comp financ planej','compensacao planejada','compensação planejada'),fe:ix(headers,'comp. financ. execut','comp financ execut','compensacao executada','compensação executada'),di:ix(headers,'prev. inicio interrup','prev. inicio'),ri:ix(headers,'inicio da interrupcao','início da interrupção'),df:ix(headers,'prev. fim interrup','prev. fim'),rf:ix(headers,'termino da interrupcao','término da interrupção')};
+ const I={r:ix(headers,'responsavel','responsável','nome responsavel'),pi:ix(headers,'pi','numero do pi','número do pi','nº pi','num pi','codigo pi','código pi'),v:ix(headers,'niveis de tensao','nivel de tensao','tensão'),c:ix(headers,'conjunto critico','conjunto crítico','conjunto crit','conjunto'),cp:ix(headers,'chi planejado','chi plan'),ce:ix(headers,'chi executado','chi exec'),fp:ix(headers,'comp. financ. planej','comp financ planej','compensacao planejada','compensação planejada'),fe:ix(headers,'comp. financ. execut','comp financ execut','compensacao executada','compensação executada'),di:ix(headers,'prev. inicio interrup','prev. inicio'),ri:ix(headers,'inicio da interrupcao','início da interrupção'),df:ix(headers,'prev. fim interrup','prev. fim'),rf:ix(headers,'termino da interrupcao','término da interrupção'),ai:ix(headers,'atraso inicio formatado','atraso início formatado'),af:ix(headers,'atraso fim formatado')};
  const required=[['PI',I.pi],['CHI Executado',I.ce],['Comp. Financ. Execut.',I.fe]].filter(x=>x[1]<0).map(x=>x[0]);if(required.length)return message('Cabeçalhos obrigatórios não encontrados: '+required.join(', '),true);
  const recommended=[['Responsável',I.r],['Tensão',I.v],['Conjunto crítico',I.c],['CHI Planejado',I.cp],['Compensação Planejada',I.fp],['Datas do período',Math.max(I.di,I.ri,I.df,I.rf)]].filter(x=>x[1]<0).map(x=>x[0]);
- rows=matrix.slice(1).map(c=>{const g=i=>i>=0?(c[i]||'').trim():'',cpRaw=g(I.cp),fpRaw=g(I.fp),cp=num(cpRaw),ce=num(g(I.ce)),fp=num(fpRaw),fe=num(g(I.fe));return{r:g(I.r)||'Não informado',pi:g(I.pi)||'—',v:(g(I.v)||'—').toUpperCase(),c:g(I.c)||'—',cp,cpInformado:isFilled(cpRaw),ce,cd:ce-cp,cv:pct(ce,cp),fp,fpInformado:isFilled(fpRaw),fe,fd:fe-fp,fv:pct(fe,fp),dates:[g(I.di),g(I.ri),g(I.df),g(I.rf)].filter(Boolean)}}).filter(r=>r.pi!=='—'||r.ce||r.fe);
- if(!rows.length)return message('Nenhum registro válido foi encontrado.',true);buildMonthOptions();render();const allDates=rows.flatMap(r=>r.dates),validDates=allDates.filter(v=>parseDate(v)).length,totalCHI=rows.reduce((a,r)=>a+r.ce,0),totalFIN=rows.reduce((a,r)=>a+r.fe,0);let info=`${rows.length} registros processados. CHI executado: ${nfmt(totalCHI)} | Compensação executada: ${money(totalFIN)}.`;if(allDates.length)info+=` Datas reconhecidas: ${validDates} de ${allDates.length}.`;if(recommended.length)info+=`\nAtenção: colunas recomendadas não identificadas: ${recommended.join(', ')}.`;message(info,recommended.length>0);
+ rows=matrix.slice(1).map(c=>{const g=i=>i>=0?(c[i]||'').trim():'',cpRaw=g(I.cp),fpRaw=g(I.fp),cp=num(cpRaw),ce=num(g(I.ce)),fp=num(fpRaw),fe=num(g(I.fe));return{r:g(I.r)||'Não informado',pi:g(I.pi)||'—',v:(g(I.v)||'—').toUpperCase(),c:g(I.c)||'—',cp,cpInformado:isFilled(cpRaw),ce,cd:ce-cp,cv:pct(ce,cp),fp,fpInformado:isFilled(fpRaw),fe,fd:fe-fp,fv:pct(fe,fp),di:g(I.di),ri:g(I.ri),df:g(I.df),rf:g(I.rf),ai:g(I.ai),af:g(I.af),dates:[g(I.di),g(I.ri),g(I.df),g(I.rf)].filter(Boolean)}}).filter(r=>r.pi!=='—'||r.ce||r.fe);
+ if(!rows.length)return message('Nenhum registro válido foi encontrado.',true);selectedPeriod='';refreshPeriodSelect();render();const allDates=rows.flatMap(r=>r.dates),validDates=allDates.filter(v=>parseDate(v)).length,totalCHI=rows.reduce((a,r)=>a+r.ce,0),totalFIN=rows.reduce((a,r)=>a+r.fe,0);let info=`${rows.length} registros processados. CHI executado: ${nfmt(totalCHI)} | Compensação executada: ${money(totalFIN)}.`;if(allDates.length)info+=` Datas reconhecidas: ${validDates} de ${allDates.length}.`;if(recommended.length)info+=`\nAtenção: colunas recomendadas não identificadas: ${recommended.join(', ')}.`;message(info,recommended.length>0);
  }catch(e){console.error(e);message('Não foi possível processar os dados: '+e.message,true);}finally{btn.disabled=false;btn.textContent='Gerar Top 10';}}
-function monthKey(date){const d=new Date(date);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;}
-function formatMonth(key){const [y,m]=key.split('-').map(Number);const x=new Date(y,m-1,1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'});return x.charAt(0).toUpperCase()+x.slice(1);}
-function rowMonth(r){const ds=r.dates.map(parseDate).filter(Boolean).sort((a,b)=>a-b);return ds.length?monthKey(ds[0]):null;}
-function buildMonthOptions(){availableMonths=[...new Set(rows.map(rowMonth).filter(Boolean))].sort().reverse();const e=$('monthSelect');e.innerHTML=availableMonths.map(k=>`<option value="${k}">${formatMonth(k)}</option>`).join('')+'<option value="all">Todos os meses</option>';activeMonth=availableMonths[0]||'all';e.value=activeMonth;}
-function setMonth(v){activeMonth=v||'all';render();}
-const AREA_CONFIG={EXP:{label:'Gerência de Expansão',prefixes:['EXP-']},MAN_BX_OE:{label:'Gerência de Manutenção BX/OE',prefixes:['MAN-BX','MAN-OE']},MAN_LE_VP:{label:'Gerência de Manutenção LE/VP',prefixes:['MAN-LE','MAN-VP']},MAN_CS_SO:{label:'Gerência de Manutenção CS/SO',prefixes:['MAN-BA','MAN-CS']}};
-function areaRows(){const c=AREA_CONFIG[activeArea];return rows.filter(r=>c.prefixes.some(p=>norm(r.r).startsWith(norm(p)))&&(activeMonth==='all'||rowMonth(r)===activeMonth));}
-function setArea(a){activeArea=AREA_CONFIG[a]?a:'EXP';Object.keys(AREA_CONFIG).forEach(k=>{const b=$('btn'+k);b.classList.toggle('active',k===activeArea);b.classList.toggle('primary',k===activeArea)});render();}
+function recordDate(r){return parseDate(r.di)||parseDate(r.ri)||parseDate(r.df)||parseDate(r.rf);}
+function pad2(n){return String(n).padStart(2,'0');}
+function monthKey(d){return `${d.getFullYear()}-${pad2(d.getMonth()+1)}`;}
+function weekStart(d){const x=new Date(d.getFullYear(),d.getMonth(),d.getDate()),day=x.getDay()||7;x.setDate(x.getDate()-day+1);return x;}
+function weekKey(d){const x=weekStart(d);return `${x.getFullYear()}-${pad2(x.getMonth()+1)}-${pad2(x.getDate())}`;}
+function periodKeyForRow(r){const d=recordDate(r);return d?(viewMode==='weekly'?weekKey(d):monthKey(d)):'';}
+function periodLabelFromKey(key){
+ if(!key)return 'Período não identificado';
+ const f=d=>d.toLocaleDateString('pt-BR');
+ if(viewMode==='monthly'){const [y,m]=key.split('-').map(Number);return new Date(y,m-1,1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'}).replace(/^./,c=>c.toUpperCase());}
+ const [y,m,d]=key.split('-').map(Number),start=new Date(y,m-1,d),end=new Date(y,m-1,d+6);return `${f(start)} a ${f(end)}`;
+}
+function availablePeriods(){return [...new Set(areaRows().map(periodKeyForRow).filter(Boolean))].sort().reverse();}
+function refreshPeriodSelect(){
+ const select=$('periodSelect'),keys=availablePeriods();
+ if(!keys.includes(selectedPeriod))selectedPeriod=keys[0]||'';
+ select.innerHTML=keys.length?keys.map(k=>`<option value="${k}"${k===selectedPeriod?' selected':''}>${esc(periodLabelFromKey(k))}</option>`).join(''):'<option value="">Período não identificado</option>';
+ select.disabled=!keys.length;
+}
+function setViewMode(mode){
+ viewMode=mode==='weekly'?'weekly':'monthly';selectedPeriod='';
+ $('btnMonthly').classList.toggle('active',viewMode==='monthly');$('btnMonthly').classList.toggle('primary',viewMode==='monthly');
+ $('btnWeekly').classList.toggle('active',viewMode==='weekly');$('btnWeekly').classList.toggle('primary',viewMode==='weekly');
+ refreshPeriodSelect();render();
+}
+function setPeriod(value){selectedPeriod=value||'';render();}
+function areaRows(){return rows.filter(r=>norm(r.r).startsWith(activeArea.toLowerCase()+'-'));}
+function setArea(area){activeArea=area==='MAN'?'MAN':'EXP';$('btnEXP').classList.toggle('active',activeArea==='EXP');$('btnEXP').classList.toggle('primary',activeArea==='EXP');$('btnMAN').classList.toggle('active',activeArea==='MAN');$('btnMAN').classList.toggle('primary',activeArea==='MAN');selectedPeriod='';refreshPeriodSelect();render();}
+function endDelayMinutes(r){
+ const csvDelay=delayMinutes(r.af);
+ return csvDelay!==null?csvDelay:minutesDifference(r.rf,r.df);
+}
+function isOperationallyCritical(r){
+ // Para o comitê, somente casos com término após o previsto são elegíveis.
+ // Casos concluídos no horário ou antecipados não entram no Top 10, mesmo com CHI/custo elevado.
+ const delay=endDelayMinutes(r);
+ return delay!==null&&delay>0;
+}
 function render(){
- const scope=areaRows(),label=AREA_CONFIG[activeArea].label,monthLabel=activeMonth==='all'?'Todos os meses':formatMonth(activeMonth);
- $('committeeSwitch').style.display='block';$('committeeNote').textContent=`${scope.length} registro(s) | ${label} | Mês: ${monthLabel} | Prefixos: ${AREA_CONFIG[activeArea].prefixes.join(' e ')}.`;
+ refreshPeriodSelect();
+ const areaScope=areaRows(),scope=selectedPeriod?areaScope.filter(r=>periodKeyForRow(r)===selectedPeriod):areaScope,label=activeArea==='EXP'?'Expansão':'Manutenção',viewLabel=viewMode==='weekly'?'Visão semanal':'Visão mensal';
+ $('committeeSwitch').style.display='block';$('committeeNote').textContent=`${scope.length} registro(s) de ${label} na ${viewLabel.toLowerCase()} selecionada: ${periodLabelFromKey(selectedPeriod)}.`;
+ $('titleCHI').textContent=`${viewLabel} | CHI`;$('titleFIN').textContent=`${viewLabel} | Compensação financeira`;
  $('titleCHI').textContent='Visão executiva | CHI';$('titleFIN').textContent='Visão executiva | Compensação financeira';
- const positiveCHIAll=scope.filter(r=>r.cpInformado&&r.cd>0).sort((a,b)=>b.cd-a.cd||b.cv-a.cv);
- const positiveFINAll=scope.filter(r=>r.fe>0&&r.fd>0).sort((a,b)=>b.fd-a.fd||b.fe-a.fe);
- const sum=(data,k)=>data.reduce((a,r)=>a+(Number.isFinite(r[k])?r[k]:0),0),cp=sum(positiveCHIAll,'cp'),ce=sum(positiveCHIAll,'ce'),fp=sum(positiveFINAll,'fp'),fe=sum(positiveFINAll,'fe');
- const unplanned=positiveFINAll.filter(r=>!r.fpInformado),unplannedValue=unplanned.reduce((a,r)=>a+r.fe,0);
+ // Top 10 CHI: maior desvio absoluto; desempates por variação percentual e CHI executado.
+ const positiveCHIAll=scope
+  .filter(r=>r.cpInformado&&r.cp>0&&r.ce>r.cp&&isOperationallyCritical(r))
+  .sort((a,b)=>(b.cd-a.cd)||(b.cv-a.cv)||(b.ce-a.ce));
+ // Top 10 financeiro: maior diferença em reais; desempates por maior executado e variação percentual.
+ const positiveFINAll=scope
+  .filter(r=>r.fe>0&&r.fe>r.fp&&isOperationallyCritical(r))
+  .sort((a,b)=>(b.fd-a.fd)||(b.fe-a.fe)||(b.fv-a.fv));
+ const sum=(data,k)=>data.reduce((a,r)=>a+(Number.isFinite(r[k])?r[k]:0),0);
  const positiveCHI=positiveCHIAll.slice(0,10);
  const topFIN=positiveFINAll.slice(0,10);
+ // Os KPIs financeiros devem refletir exatamente os registros exibidos no Top 10.
+ // Os KPIs de CHI e financeiros devem usar exatamente os registros exibidos nas tabelas Top 10.
+ const cp=sum(positiveCHI,'cp'),ce=sum(positiveCHI,'ce'),fp=sum(topFIN,'fp'),fe=sum(topFIN,'fe');
+ // KPI Custo não planejado: diferença positiva total do Top 10.
+ // Sem planejamento: considera todo o executado. Com planejamento: Executado - Planejado.
+ const unplanned=topFIN.filter(r=>!r.fpInformado);
+ const unplannedValue=topFIN.reduce((a,r)=>a+Math.max(0,r.fd),0);
  const positiveCount=positiveCHIAll.length,aboveFIN=positiveFINAll.length;
  const topCHI=Math.min(positiveCHIAll.length,10),topFINCount=Math.min(positiveFINAll.length,10);
  $('rankTitleCHI').textContent=`Top ${topCHI} | Variação positiva de CHI`;
  $('rankTitleFIN').textContent=`Top ${topFINCount} | Compensação financeira`;
  const positiveTotal=positiveCHI.reduce((a,r)=>a+r.cd,0),topFinShare=fe?topFIN.reduce((a,r)=>a+r.fe,0)/fe*100:0;
- const p=activeMonth==='all'?period(scope.flatMap(r=>r.dates)):`Mês: ${monthLabel}`,stamp='Gerado em '+new Date().toLocaleString('pt-BR');$('periodCHI').textContent=p;$('periodFIN').textContent=p;$('stampCHI').textContent=stamp;$('stampFIN').textContent=stamp;
+ const p=`Período: ${periodLabelFromKey(selectedPeriod)}`,stamp='Gerado em '+new Date().toLocaleString('pt-BR');$('periodCHI').textContent=p;$('periodFIN').textContent=p;$('stampCHI').textContent=stamp;$('stampFIN').textContent=stamp;
  $('chiPlan').textContent=nfmt(cp);$('chiExec').textContent=nfmt(ce);$('chiExecSub').textContent=`Variação relativa: ${pf(pct(ce,cp))}`;const chiDelta=ce-cp;$('chiDelta').textContent=`${chiDelta>0?'+':''}${nfmt(chiDelta)}`;$('chiDeltaSub').textContent=chiDelta>0?'Executado acima do planejado':chiDelta<0?'Executado abaixo do planejado':'Executado igual ao planejado';setStatus('chiExecCard','chiStatus',cp===0&&ce>0?'warning':chiDelta>0?'danger':'success',cp===0&&ce>0?'NÃO PLANEJADO':chiDelta>0?'ACIMA DO PLANEJADO':'DENTRO DO PLANEJADO');$('chiDeltaCard').classList.remove('danger','success','warning');$('chiDeltaCard').classList.add(chiDelta>0?'danger':'success');
- $('chiMax').textContent=positiveCHI.length?`+${positiveCHI[0].cv.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}%`:'0,00%';$('chiMaxSub').textContent=positiveCHI.length?`PI ${positiveCHI[0].pi}`:'Sem variação positiva';
- $('summaryCHI').innerHTML=positiveCHI.length?`<b>Leitura gerencial | ${label}:</b> foram identificados <b>${positiveCount} PI(s)</b> com variação positiva de CHI. Entre os ${topCHI} maiores desvios, o acréscimo soma <b>${nfmt(positiveTotal)}</b>. O PI <b>${esc(positiveCHI[0].pi)}</b>, do responsável <b>${esc(positiveCHI[0].r)}</b>, lidera com <b>+${positiveCHI[0].cv.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}%</b>.`:`<b>Leitura gerencial | ${label}:</b> não há casos com variação positiva de CHI no período selecionado.`;
- $('finPlan').textContent=money(fp);$('finExec').textContent=money(fe);$('finExecSub').textContent=`Variação relativa: ${pf(pct(fe,fp))}`;setStatus('finExecCard','finStatus',fp===0&&fe>0?'warning':fe>fp?'danger':'success',fp===0&&fe>0?'NÃO PLANEJADO':fe>fp?'ACIMA DO PLANEJADO':'DENTRO DO PLANEJADO');$('finUnplanned').textContent=money(unplannedValue);$('finUnplannedSub').textContent=`${unplanned.length} PI(s) com planejamento vazio`;$('finMax').textContent=topFIN.length?money(topFIN[0].fe):money(0);$('finMaxSub').textContent=topFIN.length?`PI ${topFIN[0].pi}`:'Sem compensação executada';
- $('summaryFIN').innerHTML=topFIN.length?`<b>Leitura gerencial | ${label}:</b> o ranking apresenta exclusivamente os casos em que a compensação financeira executada excedeu a planejada. O Top ${topFINCount} concentra <b>${topFinShare.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})}%</b> do valor da área, com <b>${aboveFIN} PI(s)</b> acima do planejado. O PI <b>${esc(topFIN[0].pi)}</b> lidera com <b>${money(topFIN[0].fe)}</b>.`:`<b>Leitura gerencial | ${label}:</b> não há casos com variação financeira positiva, ou seja, com valor executado maior que o planejado.`;
+ const maxCHIPct=positiveCHI.reduce((max,r)=>!max||r.cv>max.cv?r:max,null);$('chiMax').textContent=maxCHIPct?`+${maxCHIPct.cv.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}%`:'0,00%';$('chiMaxSub').textContent=maxCHIPct?`PI ${maxCHIPct.pi}`:'Sem variação positiva';setKpiTone('chiDeltaCard',chiDelta>0?'danger':'success');setKpiTone('chiMaxCard',maxCHIPct&&maxCHIPct.cv>0?'danger':'success');
+ const topCHITotal=sum(positiveCHI,'cd'),topCHIMaxPct=positiveCHI.reduce((max,r)=>!max||r.cv>max.cv?r:max,null);
+ $('summaryCHI').innerHTML=positiveCHI.length?`<b>Leitura gerencial | ${label}:</b> O Top 10 considera apenas PIs concluídas após o horário previsto e com CHI executado acima do planejado. Os <b>${topCHI} casos selecionados</b> apresentam um desvio acumulado de <b>+${nfmt(topCHITotal)} CHI</b>. A PI <b>${esc(positiveCHI[0].pi)}</b> registrou o maior desvio de CHI, com <b>+${nfmt(positiveCHI[0].cd)}</b> acima do planejado.`:`<b>Leitura gerencial | ${label}:</b> não há PIs com término atrasado e CHI executado acima do planejado.`;
+ $('finPlan').textContent=money(fp);$('finExec').textContent=money(fe);$('finExecSub').textContent=`Variação relativa: ${pf(pct(fe,fp))}`;setStatus('finExecCard','finStatus',fp===0&&fe>0?'warning':fe>fp?'danger':'success',fp===0&&fe>0?'NÃO PLANEJADO':fe>fp?'ACIMA DO PLANEJADO':'DENTRO DO PLANEJADO');$('finUnplanned').textContent=money(unplannedValue);$('finUnplannedSub').textContent=`Diferença total do Top ${topFINCount}: Exec. - Plan. (${unplanned.length} sem planejamento)`;$('finMax').textContent=topFIN.length?money(topFIN[0].fe):money(0);$('finMaxSub').textContent=topFIN.length?`PI ${topFIN[0].pi}`:'Sem compensação executada';setKpiTone('finUnplannedCard',unplannedValue>0?'danger':'success');setKpiTone('finMaxCard',topFIN.length&&topFIN[0].fe>topFIN[0].fp?'danger':'success');
+ const topFINDelta=sum(topFIN,'fd'),topFINWithoutPlan=topFIN.filter(r=>!r.fpInformado).length;
+ $('summaryFIN').innerHTML=topFIN.length?`<b>Leitura gerencial | ${label}:</b> O Top 10 considera apenas PIs concluídas após o horário previsto e com compensação executada acima da planejada. Os <b>${topFINCount} casos selecionados</b> apresentam um desvio financeiro acumulado de <b>${money(topFINDelta)}</b>. A PI <b>${esc(topFIN[0].pi)}</b> registrou a maior compensação executada, no valor de <b>${money(topFIN[0].fe)}</b>.`:`<b>Leitura gerencial | ${label}:</b> não há PIs com término atrasado e compensação executada acima da planejada.`;
  rank('chiBody',positiveCHI,'chi');rank('finBody',topFIN,'fin');$('dashCHI').style.display='block';$('dashFIN').style.display='block';
 }
-function rank(id,data,type){if(!data.length){$(id).innerHTML='<tr class="empty-row"><td colspan="7">Não há variações positivas para compor o ranking.</td></tr>';return;}$(id).innerHTML=data.map((r,i)=>{const plan=type==='chi'?nfmt(r.cp):money(r.fp),exec=type==='chi'?nfmt(r.ce):money(r.fe),delta=type==='chi'?r.cd:r.fd,p=type==='chi'?r.cv:r.fv,dt=type==='chi'?`${delta>0?'+':''}${nfmt(delta)}`:moneyDelta(delta),voltage=norm(r.v)==='mt'?'mt':norm(r.v)==='bt'?'bt':'other';return `<tr><td><span class="rank">${i+1}</span></td><td><b>${esc(r.pi)}</b><div class="muted">${esc(r.r)}</div></td><td><span class="voltage ${voltage}">${esc(r.v)}</span></td><td title="${esc(r.c)}">${esc(r.c)}</td><td class="num">${plan}</td><td class="num"><b>${exec}</b></td><td class="num ${delta>0?'bad':delta<0?'good':''}">${dt}<div class="muted">${pf(p)}</div></td></tr>`}).join('');}
-function clearAll(){if(($('input').value.trim()||rows.length)&&!confirm('Deseja limpar os dados e os painéis gerados?'))return;$('input').value='';$('fileInput').value='';$('fileName').textContent='Nenhum arquivo selecionado';$('dashCHI').style.display='none';$('dashFIN').style.display='none';$('committeeSwitch').style.display='none';rows=[];message('');}
+function formatDateTime(value){
+ const raw=String(value??'').trim();
+ if(!raw)return '—';
+ const d=parseDate(raw);
+ if(!d)return raw;
+ const hasTime=/\d{1,2}:\d{2}/.test(raw),hasSeconds=/\d{1,2}:\d{2}:\d{2}/.test(raw);
+ const date=d.toLocaleDateString('pt-BR');
+ return hasTime?date+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',...(hasSeconds?{second:'2-digit'}:{})}):date;
+}
+function minutesDifference(executed,planned){
+ const e=parseDate(String(executed??'').trim()),p=parseDate(String(planned??'').trim());
+ return e&&p?Math.trunc((e-p)/60000):null;
+}
+function hhmmDifference(minutes){
+ if(minutes===null||!Number.isFinite(minutes))return '—';
+ const sign=minutes<0?'-':'';
+ const total=Math.abs(minutes),h=Math.floor(total/60),m=total%60;
+ return `${sign}${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+}
+function cleanDelay(value){
+ const raw=String(value??'').trim().replace(/^['\s]+/,'');
+ return /^-?\d{1,3}:\d{2}$/.test(raw)?raw:'—';
+}
+function delayMinutes(value){
+ const raw=cleanDelay(value);if(raw==='—')return null;
+ const negative=raw.startsWith('-'),parts=raw.replace('-','').split(':').map(Number);
+ return (negative?-1:1)*(parts[0]*60+parts[1]);
+}
+function dateCell(value){return `<td class="time-cell">${esc(formatDateTime(value))}</td>`;}
+function delayCell(csvValue,executed,planned){
+ let text=cleanDelay(csvValue),minutes=delayMinutes(csvValue);
+ if(text==='—'){minutes=minutesDifference(executed,planned);text=hhmmDifference(minutes);}
+ const cls=minutes===null?'ontime':minutes>0?'late':minutes<0?'early':'ontime';
+ return `<td class="time-cell"><span class="time-diff ${cls}">${esc(text)}</span></td>`;
+}
+function rank(id,data,type){if(!data.length){$(id).innerHTML='<tr class="empty-row"><td colspan="13">Não há variações positivas para compor o ranking.</td></tr>';return;}$(id).innerHTML=data.map((r,i)=>{const plan=type==='chi'?nfmt(r.cp):money(r.fp),exec=type==='chi'?nfmt(r.ce):money(r.fe),delta=type==='chi'?r.cd:r.fd,p=type==='chi'?r.cv:r.fv,dt=type==='chi'?`${delta>0?'+':''}${nfmt(delta)}`:moneyDelta(delta),voltage=norm(r.v)==='mt'?'mt':norm(r.v)==='bt'?'bt':'other';return `<tr><td><span class="rank">${i+1}</span></td><td><b>${esc(r.pi)}</b><div class="muted">${esc(r.r)}</div></td><td><span class="voltage ${voltage}">${esc(r.v)}</span></td><td title="${esc(r.c)}">${esc(r.c)}</td>${dateCell(r.di)}${dateCell(r.ri)}${delayCell(r.ai,r.ri,r.di)}${dateCell(r.df)}${dateCell(r.rf)}${delayCell(r.af,r.rf,r.df)}<td class="num">${plan}</td><td class="num"><b>${exec}</b></td><td class="num ${delta>0?'bad':delta<0?'good':''}">${dt}<div class="muted">${pf(p)}</div></td></tr>`}).join('');}
+function clearAll(){if(($('input').value.trim()||rows.length)&&!confirm('Deseja limpar os dados e os painéis gerados?'))return;$('input').value='';$('fileInput').value='';$('fileName').textContent='Nenhum arquivo selecionado';$('dashCHI').style.display='none';$('dashFIN').style.display='none';$('committeeSwitch').style.display='none';rows=[];selectedPeriod='';$('periodSelect').innerHTML='';message('');}
 $('fileInput').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{$('input').value=await file.text();$('fileName').textContent=file.name;message(`Arquivo ${file.name} carregado. Clique em Gerar Top 10.`);}catch(err){message('Não foi possível ler o arquivo selecionado.',true);}});
 async function exportPanel(captureId,filePrefix,button){if(!rows.length)return message('Gere os painéis primeiro.',true);if(typeof html2canvas!=='function')return message('Biblioteca de exportação não carregada. Verifique a conexão ou disponibilize html2canvas.min.js localmente.',true);const original=button?.textContent||'';if(button){button.textContent='Gerando PNG em alta qualidade...';button.disabled=true}document.body.classList.add('exporting');let stage;try{await document.fonts.ready;stage=document.createElement('section');stage.className='ppt-stage';stage.setAttribute('aria-hidden','true');const frame=document.createElement('div');frame.className='ppt-frame';const clone=$(captureId).cloneNode(true);clone.id='capture';frame.append(clone);stage.append(frame);document.body.append(stage);await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));const canvas=await html2canvas(stage,{backgroundColor:'#ffffff',scale:2,width:1888,height:900,windowWidth:1888,windowHeight:900,scrollX:0,scrollY:0,useCORS:true,logging:false,imageTimeout:15000,onclone:doc=>{doc.body.style.margin='0';doc.body.style.background='#fff'}});const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png',1));if(!blob)throw new Error('Falha ao criar o arquivo PNG.');const url=URL.createObjectURL(blob),a=document.createElement('a');a.download=`${filePrefix}_${new Date().toISOString().slice(0,10)}.png`;a.href=url;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);message(`PNG gerado em ${canvas.width} x ${canvas.height} px.`);}catch(error){console.error(error);message('Não foi possível gerar o PNG: '+error.message,true);}finally{stage?.remove();document.body.classList.remove('exporting');if(button){button.disabled=false;button.textContent=original}}}
-function pngCHI(){exportPanel('captureCHI',`Comite_${activeArea}_${activeMonth}_Variacao_Positiva_CHI`,document.querySelector('button[onclick="pngCHI()"]'));}
-function pngFIN(){exportPanel('captureFIN',`Comite_${activeArea}_${activeMonth}_Compensacao_Financeira`,document.querySelector('button[onclick="pngFIN()"]'));}
+function pngCHI(){exportPanel('captureCHI',`Comite_${activeArea}_${viewMode}_${selectedPeriod}_Variacao_Positiva_CHI`,document.querySelector('button[onclick="pngCHI()"]'));}
+function pngFIN(){exportPanel('captureFIN',`Comite_${activeArea}_${viewMode}_${selectedPeriod}_Compensacao_Financeira`,document.querySelector('button[onclick="pngFIN()"]'));}
 </script>
 </body>
 </html>
