@@ -214,6 +214,7 @@ tr:hover td{background:#EEF7F5}
 .period-select-label{display:grid;gap:5px;font-size:12px;font-weight:800;color:var(--verde-escuro);min-width:280px}
 .period-select-label select{width:100%;min-height:40px;border:1px solid var(--linha);border-radius:9px;background:#fff;color:var(--texto);padding:8px 10px;font:700 13px Arial,"Segoe UI",sans-serif}
 @media(max-width:700px){.period-controls{align-items:stretch}.period-select-label{min-width:100%}}
+.manager-buttons button{border-radius:10px;padding:10px 14px}.manager-buttons button.active{background:var(--verde);color:#fff}
 </style>
 </head>
 <body>
@@ -243,9 +244,12 @@ tr:hover td{background:#EEF7F5}
 </section>
 <section id="committeeSwitch" class="panel committee-switch">
   <div class="switch-title">Selecione a visão do comitê</div>
-  <div class="buttons">
-    <button id="btnEXP" class="primary active" onclick="setArea('EXP')">Expansão | EXP-</button>
-    <button id="btnMAN" onclick="setArea('MAN')">Manutenção | MAN-</button>
+  <div class="switch-title">Selecione a coordenação</div>
+  <div class="buttons manager-buttons">
+    <button id="btnEXP" class="primary active" onclick="setArea('EXP')">Coordenação de Expansão | EXP-</button>
+    <button id="btnMAN_BX_OE" onclick="setArea('MAN_BX_OE')">Coordenação de Manutenção BX/OE | MAN-BX e MAN-OE</button>
+    <button id="btnMAN_LE_VP" onclick="setArea('MAN_LE_VP')">Coordenação de Manutenção LE/VP | MAN-LE e MAN-VP</button>
+    <button id="btnMAN_CS_SO" onclick="setArea('MAN_CS_SO')">Coordenação de Manutenção CS/SO | MAN-BA e MAN-CS</button>
   </div>
   <div class="period-controls" aria-label="Seleção do período">
     <div class="period-toggle">
@@ -334,6 +338,12 @@ async function generate(){const btn=$('generateBtn');btn.disabled=true;btn.textC
  rows=matrix.slice(1).map(c=>{const g=i=>i>=0?(c[i]||'').trim():'',cpRaw=g(I.cp),fpRaw=g(I.fp),cp=num(cpRaw),ce=num(g(I.ce)),fp=num(fpRaw),fe=num(g(I.fe));return{r:g(I.r)||'Não informado',pi:g(I.pi)||'—',v:(g(I.v)||'—').toUpperCase(),c:g(I.c)||'—',cp,cpInformado:isFilled(cpRaw),ce,cd:ce-cp,cv:pct(ce,cp),fp,fpInformado:isFilled(fpRaw),fe,fd:fe-fp,fv:pct(fe,fp),di:g(I.di),ri:g(I.ri),df:g(I.df),rf:g(I.rf),ai:g(I.ai),af:g(I.af),dates:[g(I.di),g(I.ri),g(I.df),g(I.rf)].filter(Boolean)}}).filter(r=>r.pi!=='—'||r.ce||r.fe);
  if(!rows.length)return message('Nenhum registro válido foi encontrado.',true);selectedPeriod='';refreshPeriodSelect();render();const allDates=rows.flatMap(r=>r.dates),validDates=allDates.filter(v=>parseDate(v)).length,totalCHI=rows.reduce((a,r)=>a+r.ce,0),totalFIN=rows.reduce((a,r)=>a+r.fe,0);let info=`${rows.length} registros processados. CHI executado: ${nfmt(totalCHI)} | Compensação executada: ${money(totalFIN)}.`;if(allDates.length)info+=` Datas reconhecidas: ${validDates} de ${allDates.length}.`;if(recommended.length)info+=`\nAtenção: colunas recomendadas não identificadas: ${recommended.join(', ')}.`;message(info,recommended.length>0);
  }catch(e){console.error(e);message('Não foi possível processar os dados: '+e.message,true);}finally{btn.disabled=false;btn.textContent='Gerar Top 10';}}
+const AREA_CONFIG={
+ EXP:{label:'Coordenação de Expansão',prefixes:['EXP-']},
+ MAN_BX_OE:{label:'Coordenação de Manutenção BX/OE',prefixes:['MAN-BX','MAN-OE']},
+ MAN_LE_VP:{label:'Coordenação de Manutenção LE/VP',prefixes:['MAN-LE','MAN-VP']},
+ MAN_CS_SO:{label:'Coordenação de Manutenção CS/SO',prefixes:['MAN-BA','MAN-CS']}
+};
 function recordDate(r){return parseDate(r.di)||parseDate(r.ri)||parseDate(r.df)||parseDate(r.rf);}
 function pad2(n){return String(n).padStart(2,'0');}
 function monthKey(d){return `${d.getFullYear()}-${pad2(d.getMonth()+1)}`;}
@@ -360,8 +370,8 @@ function setViewMode(mode){
  refreshPeriodSelect();render();
 }
 function setPeriod(value){selectedPeriod=value||'';render();}
-function areaRows(){return rows.filter(r=>norm(r.r).startsWith(activeArea.toLowerCase()+'-'));}
-function setArea(area){activeArea=area==='MAN'?'MAN':'EXP';$('btnEXP').classList.toggle('active',activeArea==='EXP');$('btnEXP').classList.toggle('primary',activeArea==='EXP');$('btnMAN').classList.toggle('active',activeArea==='MAN');$('btnMAN').classList.toggle('primary',activeArea==='MAN');selectedPeriod='';refreshPeriodSelect();render();}
+function areaRows(){const cfg=AREA_CONFIG[activeArea]||AREA_CONFIG.EXP;return rows.filter(r=>{const responsible=norm(r.r);return cfg.prefixes.some(prefix=>responsible.startsWith(norm(prefix)));});}
+function setArea(area){activeArea=AREA_CONFIG[area]?area:'EXP';Object.keys(AREA_CONFIG).forEach(key=>{const btn=$('btn'+key);btn.classList.toggle('active',activeArea===key);btn.classList.toggle('primary',activeArea===key);});selectedPeriod='';refreshPeriodSelect();render();}
 function endDelayMinutes(r){
  const csvDelay=delayMinutes(r.af);
  return csvDelay!==null?csvDelay:minutesDifference(r.rf,r.df);
@@ -374,8 +384,8 @@ function isOperationallyCritical(r){
 }
 function render(){
  refreshPeriodSelect();
- const areaScope=areaRows(),scope=selectedPeriod?areaScope.filter(r=>periodKeyForRow(r)===selectedPeriod):areaScope,label=activeArea==='EXP'?'Expansão':'Manutenção',viewLabel=viewMode==='weekly'?'Visão semanal':'Visão mensal';
- $('committeeSwitch').style.display='block';$('committeeNote').textContent=`${scope.length} registro(s) de ${label} na ${viewLabel.toLowerCase()} selecionada: ${periodLabelFromKey(selectedPeriod)}.`;
+ const areaScope=areaRows(),scope=selectedPeriod?areaScope.filter(r=>periodKeyForRow(r)===selectedPeriod):areaScope,label=AREA_CONFIG[activeArea].label,viewLabel=viewMode==='weekly'?'Visão semanal':'Visão mensal';
+ $('committeeSwitch').style.display='block';$('committeeNote').textContent=`${scope.length} registro(s) | ${label} | ${viewLabel}: ${periodLabelFromKey(selectedPeriod)} | Prefixos: ${AREA_CONFIG[activeArea].prefixes.join(' e ')}.`;
  $('titleCHI').textContent=`${viewLabel} | CHI`;$('titleFIN').textContent=`${viewLabel} | Compensação financeira`;
  $('titleCHI').textContent='Visão executiva | CHI';$('titleFIN').textContent='Visão executiva | Compensação financeira';
  // Top 10 CHI: maior desvio absoluto; desempates por variação percentual e CHI executado.
