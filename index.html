@@ -275,7 +275,7 @@ tr:hover td{background:#EEF7F5}
   <article class="card"><div class="cardhead"><h3 id="rankTitleCHI">Top 10 | Variação positiva de CHI</h3><div class="muted">Somente PIs com CHI acima do planejado e término após o horário previsto</div></div><div class="tablewrap"><table><thead><tr><th>#</th><th>PI / Responsável</th><th>Tensão</th><th>Conjunto crítico</th><th>Prev. Início Interrup.</th><th>Início da Interrupção</th><th>Atraso Início (HH:MM)</th><th>Prev. Fim Interrup.</th><th>Término da Interrupção</th><th>Atraso Fim (HH:MM)</th><th class="num">Plan.</th><th class="num">Exec.</th><th class="num">Variação</th></tr></thead><tbody id="chiBody"></tbody></table></div></article>
   <div class="foot"><span>Light • Fonte: planilha de programação</span><span id="stampCHI"></span></div>
  </div>
- <div class="buttons" style="justify-content:flex-end"><button class="primary" onclick="pngCHI()">Baixar visão CHI | PNG HD</button></div>
+ <div class="buttons" style="justify-content:flex-end"><button class="primary" onclick="copyCHI()">Copiar imagem CHI</button><button onclick="pngCHI()">Baixar PNG</button></div>
 </section>
 <section id="dashFIN" class="panel dash">
  <div id="captureFIN" class="capture-panel">
@@ -290,7 +290,7 @@ tr:hover td{background:#EEF7F5}
   <article class="card"><div class="cardhead"><h3 id="rankTitleFIN">Top 10 | Compensação financeira</h3><div class="muted">Somente PIs com custo acima do planejado e término após o horário previsto</div></div><div class="tablewrap"><table><thead><tr><th>#</th><th>PI / Responsável</th><th>Tensão</th><th>Conjunto crítico</th><th>Prev. Início Interrup.</th><th>Início da Interrupção</th><th>Atraso Início (HH:MM)</th><th>Prev. Fim Interrup.</th><th>Término da Interrupção</th><th>Atraso Fim (HH:MM)</th><th class="num">Plan.</th><th class="num">Exec.</th><th class="num">Variação</th></tr></thead><tbody id="finBody"></tbody></table></div></article>
   <div class="foot"><span>Light • Fonte: planilha de programação</span><span id="stampFIN"></span></div>
  </div>
- <div class="buttons" style="justify-content:flex-end"><button class="primary" onclick="pngFIN()">Baixar visão financeira | PNG HD</button></div>
+ <div class="buttons" style="justify-content:flex-end"><button class="primary" onclick="copyFIN()">Copiar imagem financeira</button><button onclick="pngFIN()">Baixar PNG</button></div>
 </section>
 </main>
 <script>
@@ -459,7 +459,35 @@ function delayCell(csvValue,executed,planned){
 function rank(id,data,type){if(!data.length){$(id).innerHTML='<tr class="empty-row"><td colspan="13">Não há variações positivas para compor o ranking.</td></tr>';return;}$(id).innerHTML=data.map((r,i)=>{const plan=type==='chi'?nfmt(r.cp):money(r.fp),exec=type==='chi'?nfmt(r.ce):money(r.fe),delta=type==='chi'?r.cd:r.fd,p=type==='chi'?r.cv:r.fv,dt=type==='chi'?`${delta>0?'+':''}${nfmt(delta)}`:moneyDelta(delta),voltage=norm(r.v)==='mt'?'mt':norm(r.v)==='bt'?'bt':'other';return `<tr><td><span class="rank">${i+1}</span></td><td><b>${esc(r.pi)}</b><div class="muted">${esc(r.r)}</div></td><td><span class="voltage ${voltage}">${esc(r.v)}</span></td><td title="${esc(r.c)}">${esc(r.c)}</td>${dateCell(r.di)}${dateCell(r.ri)}${delayCell(r.ai,r.ri,r.di)}${dateCell(r.df)}${dateCell(r.rf)}${delayCell(r.af,r.rf,r.df)}<td class="num">${plan}</td><td class="num"><b>${exec}</b></td><td class="num ${delta>0?'bad':delta<0?'good':''}">${dt}<div class="muted">${pf(p)}</div></td></tr>`}).join('');}
 function clearAll(){if(($('input').value.trim()||rows.length)&&!confirm('Deseja limpar os dados e os painéis gerados?'))return;$('input').value='';$('fileInput').value='';$('fileName').textContent='Nenhum arquivo selecionado';$('dashCHI').style.display='none';$('dashFIN').style.display='none';$('committeeSwitch').style.display='none';rows=[];selectedPeriod='';$('periodSelect').innerHTML='';message('');}
 $('fileInput').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{$('input').value=await file.text();$('fileName').textContent=file.name;message(`Arquivo ${file.name} carregado. Clique em Gerar Top 10.`);}catch(err){message('Não foi possível ler o arquivo selecionado.',true);}});
+async function createPanelCanvas(captureId){
+ if(!rows.length)throw new Error('Gere os painéis primeiro.');
+ if(typeof html2canvas!=='function')throw new Error('Biblioteca de imagem não carregada. Verifique a conexão.');
+ await document.fonts.ready;
+ const stage=document.createElement('section');stage.className='ppt-stage';stage.setAttribute('aria-hidden','true');
+ const frame=document.createElement('div');frame.className='ppt-frame';const clone=$(captureId).cloneNode(true);clone.id='capture';frame.append(clone);stage.append(frame);document.body.append(stage);
+ try{
+  await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+  return await html2canvas(stage,{backgroundColor:'#ffffff',scale:2,width:1888,height:900,windowWidth:1888,windowHeight:900,scrollX:0,scrollY:0,useCORS:true,logging:false,imageTimeout:15000,onclone:doc=>{doc.body.style.margin='0';doc.body.style.background='#fff'}});
+ }finally{stage.remove();}
+}
+async function copyPanel(captureId,button){
+ const original=button?.textContent||'';
+ if(button){button.textContent='Copiando imagem...';button.disabled=true;}
+ document.body.classList.add('exporting');
+ try{
+  if(!navigator.clipboard||typeof ClipboardItem==='undefined')throw new Error('O navegador não liberou a cópia de imagens. Abra o HTML no Microsoft Edge ou Google Chrome e permita acesso à área de transferência.');
+  const canvas=await createPanelCanvas(captureId);
+  const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png',1));
+  if(!blob)throw new Error('Falha ao criar a imagem PNG.');
+  await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);
+  message(`Imagem copiada em ${canvas.width} x ${canvas.height} px. Agora use Ctrl+V no Outlook, Teams ou PowerPoint.`);
+  if(button){button.textContent='Imagem copiada ✓';setTimeout(()=>{button.textContent=original;},1800);}
+ }catch(error){console.error(error);message('Não foi possível copiar a imagem: '+error.message,true);if(button)button.textContent=original;}
+ finally{document.body.classList.remove('exporting');if(button)button.disabled=false;}
+}
 async function exportPanel(captureId,filePrefix,button){if(!rows.length)return message('Gere os painéis primeiro.',true);if(typeof html2canvas!=='function')return message('Biblioteca de exportação não carregada. Verifique a conexão ou disponibilize html2canvas.min.js localmente.',true);const original=button?.textContent||'';if(button){button.textContent='Gerando PNG em alta qualidade...';button.disabled=true}document.body.classList.add('exporting');let stage;try{await document.fonts.ready;stage=document.createElement('section');stage.className='ppt-stage';stage.setAttribute('aria-hidden','true');const frame=document.createElement('div');frame.className='ppt-frame';const clone=$(captureId).cloneNode(true);clone.id='capture';frame.append(clone);stage.append(frame);document.body.append(stage);await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));const canvas=await html2canvas(stage,{backgroundColor:'#ffffff',scale:2,width:1888,height:900,windowWidth:1888,windowHeight:900,scrollX:0,scrollY:0,useCORS:true,logging:false,imageTimeout:15000,onclone:doc=>{doc.body.style.margin='0';doc.body.style.background='#fff'}});const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png',1));if(!blob)throw new Error('Falha ao criar o arquivo PNG.');const url=URL.createObjectURL(blob),a=document.createElement('a');a.download=`${filePrefix}_${new Date().toISOString().slice(0,10)}.png`;a.href=url;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);message(`PNG gerado em ${canvas.width} x ${canvas.height} px.`);}catch(error){console.error(error);message('Não foi possível gerar o PNG: '+error.message,true);}finally{stage?.remove();document.body.classList.remove('exporting');if(button){button.disabled=false;button.textContent=original}}}
+function copyCHI(){copyPanel('captureCHI',document.querySelector('button[onclick="copyCHI()"]'));}
+function copyFIN(){copyPanel('captureFIN',document.querySelector('button[onclick="copyFIN()"]'));}
 function pngCHI(){exportPanel('captureCHI',`Comite_${activeArea}_${viewMode}_${selectedPeriod}_Variacao_Positiva_CHI`,document.querySelector('button[onclick="pngCHI()"]'));}
 function pngFIN(){exportPanel('captureFIN',`Comite_${activeArea}_${viewMode}_${selectedPeriod}_Compensacao_Financeira`,document.querySelector('button[onclick="pngFIN()"]'));}
 </script>
