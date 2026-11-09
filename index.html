@@ -367,6 +367,83 @@ tr:hover td{background:#FFF4EC}
  .branded-report .title h2{font-size:22px}
  }
 
+
+/* AJUSTE FINAL DAS COLUNAS: evita textos sobrepostos no site e na imagem copiada */
+.branded-report .tablewrap{
+  width:100%;
+  overflow:visible;
+}
+.branded-report .tablewrap table{
+  width:100%;
+  table-layout:fixed;
+  border-collapse:collapse;
+}
+.branded-report .tablewrap th,
+.branded-report .tablewrap td{
+  box-sizing:border-box;
+  min-width:0!important;
+  max-width:none;
+  padding:7px 6px;
+  overflow:hidden;
+  text-overflow:clip;
+  vertical-align:middle;
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+.branded-report .tablewrap th{
+  white-space:normal;
+  line-height:1.12;
+  font-size:10px;
+}
+.branded-report .tablewrap td{
+  font-size:10px;
+  line-height:1.18;
+}
+/* Datas podem quebrar entre a data e a hora, sem invadir a próxima coluna. */
+.branded-report .tablewrap td.time-cell{
+  white-space:normal!important;
+  overflow-wrap:normal;
+  word-break:normal;
+  font-size:9.5px;
+  line-height:1.18;
+  font-variant-numeric:tabular-nums;
+}
+.branded-report .tablewrap .time-diff{
+  display:inline-block;
+  white-space:nowrap;
+  padding:3px 5px;
+}
+.branded-report .tablewrap td.num,
+.branded-report .tablewrap th.num{
+  white-space:normal;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+/* Distribuição total = 100%. Mais espaço para PI, tensão, datas e variação. */
+.branded-report .tablewrap th:nth-child(1){width:3%}
+.branded-report .tablewrap th:nth-child(2){width:13%}
+.branded-report .tablewrap th:nth-child(3){width:5%}
+.branded-report .tablewrap th:nth-child(4){width:10%}
+.branded-report .tablewrap th:nth-child(5){width:9%}
+.branded-report .tablewrap th:nth-child(6){width:9%}
+.branded-report .tablewrap th:nth-child(7){width:8%}
+.branded-report .tablewrap th:nth-child(8){width:9%}
+.branded-report .tablewrap th:nth-child(9){width:9%}
+.branded-report .tablewrap th:nth-child(10){width:8%}
+.branded-report .tablewrap th:nth-child(11){width:5%}
+.branded-report .tablewrap th:nth-child(12){width:5%}
+.branded-report .tablewrap th:nth-child(13){width:7%}
+.branded-report .tablewrap td:nth-child(2){font-weight:600}
+.branded-report .tablewrap td:nth-child(4){white-space:normal}
+.branded-report .tablewrap td:nth-child(11),
+.branded-report .tablewrap td:nth-child(12),
+.branded-report .tablewrap td:nth-child(13){padding-left:5px;padding-right:5px}
+@media(max-width:1100px){
+ .branded-report .tablewrap th{font-size:9px;padding:6px 4px}
+ .branded-report .tablewrap td{font-size:9px;padding:6px 4px}
+ .branded-report .tablewrap td.time-cell{font-size:8.5px}
+}
+
 </style>
 </head>
 <body>
@@ -619,29 +696,56 @@ async function createPanelCanvas(captureId){
  if(!rows.length)throw new Error('Gere os painéis primeiro.');
  if(typeof html2canvas!=='function')throw new Error('Biblioteca de imagem não carregada. Verifique a conexão.');
  await document.fonts.ready;
- const stage=document.createElement('section');stage.className='ppt-stage';stage.setAttribute('aria-hidden','true');
- const frame=document.createElement('div');frame.className='ppt-frame';const clone=$(captureId).cloneNode(true);clone.id='capture';frame.append(clone);stage.append(frame);document.body.append(stage);
- try{
-  await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
-  return await html2canvas(stage,{backgroundColor:'#ffffff',scale:2,width:1888,height:900,windowWidth:1888,windowHeight:900,scrollX:0,scrollY:0,useCORS:true,logging:false,imageTimeout:15000,onclone:doc=>{doc.body.style.margin='0';doc.body.style.background='#fff'}});
- }finally{stage.remove();}
+ const panel=$(captureId);
+ if(!panel)throw new Error('Informe não encontrado.');
+ // Captura diretamente o elemento visível. Não cria clone, não altera largura,
+ // não força formato 1888x900 e não modifica o desenho exibido na tela.
+ await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+ const rect=panel.getBoundingClientRect();
+ return await html2canvas(panel,{
+  backgroundColor:null,
+  scale:2,
+  width:Math.ceil(rect.width),
+  height:Math.ceil(panel.scrollHeight),
+  windowWidth:document.documentElement.clientWidth,
+  windowHeight:document.documentElement.clientHeight,
+  scrollX:0,
+  scrollY:-window.scrollY,
+  useCORS:true,
+  logging:false,
+  imageTimeout:15000
+ });
 }
 async function copyPanel(captureId,button){
  const original=button?.textContent||'';
  if(button){button.textContent='Copiando imagem...';button.disabled=true;}
- document.body.classList.add('exporting');
  try{
-  if(!navigator.clipboard||typeof ClipboardItem==='undefined')throw new Error('O navegador não liberou a cópia de imagens. Abra o HTML no Microsoft Edge ou Google Chrome e permita acesso à área de transferência.');
+  if(!navigator.clipboard||typeof ClipboardItem==='undefined')throw new Error('Abra o HTML no Microsoft Edge ou Google Chrome e permita acesso à área de transferência.');
   const canvas=await createPanelCanvas(captureId);
   const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png',1));
   if(!blob)throw new Error('Falha ao criar a imagem PNG.');
   await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);
-  message(`Imagem copiada em ${canvas.width} x ${canvas.height} px. Agora use Ctrl+V no Outlook, Teams ou PowerPoint.`);
+  message(`Imagem copiada exatamente como exibida no site (${canvas.width} x ${canvas.height} px). Use Ctrl+V no Outlook.`);
   if(button){button.textContent='Imagem copiada ✓';setTimeout(()=>{button.textContent=original;},1800);}
  }catch(error){console.error(error);message('Não foi possível copiar a imagem: '+error.message,true);if(button)button.textContent=original;}
- finally{document.body.classList.remove('exporting');if(button)button.disabled=false;}
+ finally{if(button)button.disabled=false;}
 }
-async function exportPanel(captureId,filePrefix,button){if(!rows.length)return message('Gere os painéis primeiro.',true);if(typeof html2canvas!=='function')return message('Biblioteca de exportação não carregada. Verifique a conexão ou disponibilize html2canvas.min.js localmente.',true);const original=button?.textContent||'';if(button){button.textContent='Gerando PNG em alta qualidade...';button.disabled=true}document.body.classList.add('exporting');let stage;try{await document.fonts.ready;stage=document.createElement('section');stage.className='ppt-stage';stage.setAttribute('aria-hidden','true');const frame=document.createElement('div');frame.className='ppt-frame';const clone=$(captureId).cloneNode(true);clone.id='capture';frame.append(clone);stage.append(frame);document.body.append(stage);await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));const canvas=await html2canvas(stage,{backgroundColor:'#ffffff',scale:2,width:1888,height:900,windowWidth:1888,windowHeight:900,scrollX:0,scrollY:0,useCORS:true,logging:false,imageTimeout:15000,onclone:doc=>{doc.body.style.margin='0';doc.body.style.background='#fff'}});const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png',1));if(!blob)throw new Error('Falha ao criar o arquivo PNG.');const url=URL.createObjectURL(blob),a=document.createElement('a');a.download=`${filePrefix}_${new Date().toISOString().slice(0,10)}.png`;a.href=url;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);message(`PNG gerado em ${canvas.width} x ${canvas.height} px.`);}catch(error){console.error(error);message('Não foi possível gerar o PNG: '+error.message,true);}finally{stage?.remove();document.body.classList.remove('exporting');if(button){button.disabled=false;button.textContent=original}}}
+async function exportPanel(captureId,filePrefix,button){
+ if(!rows.length)return message('Gere os painéis primeiro.',true);
+ const original=button?.textContent||'';
+ if(button){button.textContent='Gerando PNG...';button.disabled=true;}
+ try{
+  const canvas=await createPanelCanvas(captureId);
+  const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png',1));
+  if(!blob)throw new Error('Falha ao criar o arquivo PNG.');
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.download=`${filePrefix}_${new Date().toISOString().slice(0,10)}.png`;
+  a.href=url;document.body.append(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+  message(`PNG gerado exatamente como exibido no site (${canvas.width} x ${canvas.height} px).`);
+ }catch(error){console.error(error);message('Não foi possível gerar o PNG: '+error.message,true);}
+ finally{if(button){button.disabled=false;button.textContent=original;}}
+}
 function copyCHI(){copyPanel('captureCHI',document.querySelector('button[onclick="copyCHI()"]'));}
 function copyFIN(){copyPanel('captureFIN',document.querySelector('button[onclick="copyFIN()"]'));}
 function pngCHI(){exportPanel('captureCHI',`Comite_${activeArea}_${viewMode}_${selectedPeriod}_Variacao_Positiva_CHI`,document.querySelector('button[onclick="pngCHI()"]'));}
